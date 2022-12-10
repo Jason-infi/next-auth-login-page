@@ -3,12 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import styles from "../styles/Home.module.css";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
-  const [session, setSession] = useState(false);
+  const { data: session } = useSession();
   return (
     <div className='grid place-items-center h-full'>
-      {session ? <User /> : <Guest />}
+      {session ? <User session={session} /> : <Guest />}
     </div>
   );
 }
@@ -26,14 +27,18 @@ const Guest = () => {
   );
 };
 
-const User = () => {
+const User = ({ session }) => {
   return (
     <>
       <div className=' text-pink-600 text-lg font-medium text-center'>
         <p>User Homepage</p>
       </div>
+      <div className='user'>
+        {session.user.name}
+        {session.user.email}
+      </div>
       <div className='login'>
-        <Link href={"/"}>sign out</Link>
+        <Link href={"/login"}>sign out</Link>
       </div>
     </>
   );

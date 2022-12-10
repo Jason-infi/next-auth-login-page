@@ -4,8 +4,12 @@ import Layout from "../components/layout";
 import Link from "next/link";
 import styles from "../styles/Form.module.css";
 import Image from "next/image";
+import { signIn, signOut } from "next-auth/react";
 
 const login = () => {
+  const handleGoogleSignIn = async () => {
+    signIn("google", { callbackUrl: "http://localhost:3000" });
+  };
   return (
     <Layout>
       <section className='w-2/3 flex flex-col justify-evenly text-center gap-10'>
@@ -38,7 +42,7 @@ const login = () => {
             >
               login
             </button>
-            <button type='submit' className={styles.loginButton}>
+            <button className={styles.loginButton} onClick={handleGoogleSignIn}>
               sign in with google
               <Image src={"/assets/google.svg"} height={20} width={20}></Image>
             </button>
